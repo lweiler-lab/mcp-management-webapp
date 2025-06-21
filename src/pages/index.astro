@@ -3,111 +3,35 @@ import Layout from '../layouts/Layout.astro';
 ---
 
 <Layout title="MCP Management Dashboard">
-	<main class="min-h-screen bg-gray-900 text-gray-100">
-		<!-- Header -->
-		<header class="border-b border-gray-800 bg-gray-900/80 backdrop-blur-sm sticky top-0 z-50">
-			<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-				<div class="flex items-center justify-between h-16">
-					<div class="flex items-center gap-4">
-						<h1 class="text-xl font-semibold">MCP Management</h1>
-						<span class="text-sm text-gray-400">mcp.collective-systems.de</span>
-					</div>
-					<div class="flex items-center gap-4">
-						<div class="flex items-center gap-2 text-sm">
-							<div class="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
-							<span class="text-gray-300">System Healthy</span>
-						</div>
-						<button class="text-gray-400 hover:text-gray-300">
-							<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-								<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path>
-								<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
-							</svg>
-						</button>
-					</div>
-				</div>
-			</div>
-		</header>
-
-		<!-- Main Content -->
-		<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-			<div class="grid grid-cols-1 xl:grid-cols-4 gap-6 h-[calc(100vh-12rem)]">
-				
-				<!-- Main Dashboard Area (3/4 width) -->
-				<div class="xl:col-span-3 space-y-6">
-					
-					<!-- System Overview Cards -->
-					<div class="grid grid-cols-1 md:grid-cols-4 gap-4">
-						<div class="bg-gray-800 rounded-lg p-4 border border-gray-700">
-							<div class="flex items-center justify-between">
-								<div>
-									<p class="text-sm text-gray-400">System Health</p>
-									<p class="text-2xl font-semibold text-green-400">Optimal</p>
-								</div>
-								<div class="text-2xl">🟢</div>
-							</div>
-						</div>
-						
-						<div class="bg-gray-800 rounded-lg p-4 border border-gray-700">
-							<div class="flex items-center justify-between">
-								<div>
-									<p class="text-sm text-gray-400">Requests/sec</p>
-									<p class="text-2xl font-semibold">1.2k</p>
-								</div>
-								<div class="text-2xl">📈</div>
-							</div>
-						</div>
-						
-						<div class="bg-gray-800 rounded-lg p-4 border border-gray-700">
-							<div class="flex items-center justify-between">
-								<div>
-									<p class="text-sm text-gray-400">Avg Response</p>
-									<p class="text-2xl font-semibold">45ms</p>
-								</div>
-								<div class="text-2xl">⚡</div>
-							</div>
-						</div>
-						
-						<div class="bg-gray-800 rounded-lg p-4 border border-gray-700">
-							<div class="flex items-center justify-between">
-								<div>
-									<p class="text-sm text-gray-400">Active MCPs</p>
-									<p class="text-2xl font-semibold">15</p>
-								</div>
-								<div class="text-2xl">🔗</div>
-							</div>
-						</div>
-					</div>
-
-					<!-- MCP Servers Grid -->
-					<div>
-						<h2 class="text-lg font-semibold mb-4 flex items-center gap-2">
-							🔧 MCP Servers
-							<span class="text-sm text-gray-400 font-normal">(15 active)</span>
-						</h2>
-						
-						<div id="mcp-servers-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-							<!-- MCP Server Cards will be loaded here via JavaScript -->
-						</div>
-					</div>
-				</div>
-
-				<!-- AI Assistant Sidebar (1/4 width) -->
-				<div class="xl:col-span-1">
-					<div id="ai-assistant-container" class="h-full">
-						<!-- AI Assistant component will be loaded here via JavaScript -->
-					</div>
-				</div>
-			</div>
-		</div>
-	</main>
+	<!-- Dynamic Dashboard Component -->
+	<div id="dashboard-root"></div>
 </Layout>
 
 <script>
-	// Initialize the React components
-	console.log('MCP Management Dashboard loaded');
+	import React from 'react';
+	import { createRoot } from 'react-dom/client';
+	import DynamicDashboard from '../components/dashboard/DynamicDashboard.tsx';
+
+	// Initialize React app
+	const container = document.getElementById('dashboard-root');
+	if (container) {
+		const root = createRoot(container);
+		root.render(React.createElement(DynamicDashboard));
+	}
 </script>
 
 <style>
+	/* Ensure full height */
+	html, body {
+		height: 100%;
+		margin: 0;
+		padding: 0;
+	}
+	
+	#dashboard-root {
+		height: 100vh;
+	}
+
 	/* Custom scrollbar for dark theme */
 	:global(html) {
 		scrollbar-width: thin;
@@ -129,5 +53,13 @@ import Layout from '../layouts/Layout.astro';
 	
 	:global(::-webkit-scrollbar-thumb:hover) {
 		background: #718096;
+	}
+
+	/* Line clamp utility */
+	:global(.line-clamp-2) {
+		display: -webkit-box;
+		-webkit-line-clamp: 2;
+		-webkit-box-orient: vertical;
+		overflow: hidden;
 	}
 </style>
